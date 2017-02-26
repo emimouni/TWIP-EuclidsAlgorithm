@@ -1,5 +1,4 @@
 package com.company;
-
 import java.util.*;
 public class Main {
 
@@ -11,36 +10,61 @@ public class Main {
         System.out.println("Pick another whole number");
         int num2 = kb.nextInt();
 
-        int secNum1 = num1;
-        int secNum2 = num2;
-        int x = 1;
-        ArrayList<Integer> num1Divisors = new ArrayList<Integer>();
-        while(x <= secNum1){
-            if (secNum1 % x == 0){
-                num1Divisors.add(x);
+        System.out.println("Would you like to find it (1) recursively or (2) iteratively?");
+        int res = kb.nextInt();
+        int gcf;
+        if (res==1){
+            gcf = recursion(num1, num2);
+            if (gcf == 0){
+                System.out.println("Sorry, there is no GCF between these two numbers.");
             }
-            x++;
-
-        }
-        int y = 1;
-        ArrayList<Integer> num2Divisors = new ArrayList<Integer>();
-        while (y <= secNum2){
-            if (secNum2 % y == 0){
-            num2Divisors.add(y);
+            else {
+                System.out.println(gcf);       
             }
-            y++;
-        }
-
-        int gcf = 0;
-        for(int i = num1Divisors.size() - 1; i >= 0; i--){
-            for(int j = num2Divisors.size() - 1; j >= 0; j--){
-                if(num1Divisors.get(i) == num2Divisors.get(j)){
-                    gcf = num1Divisors.get(i);
-                    break;
-                }
+        }else {
+            gcf = iterative(num1, num2);
+            if (gcf == 0){
+                System.out.println("Sorry, there is no GCF between these two numbers.");
+            }
+            else {
+                System.out.println(gcf);
             }
         }
-        System.out.println(gcf);
+    }
 
+    public static int recursion(int x, int y){
+        if(x == 0){
+            return y;
+        }
+        else if(y == 0){
+            return x;
+        }
+        else{
+            if(x > y){
+                int rem = x % y;
+                return recursion(y, rem);
+            }
+            else{
+                int rem = y % x;
+                return recursion(x, rem);
+            }
+        }
+
+    }
+    public static int iterative(int num1, int num2){
+        while(num1 != 0 && num2 != 0){
+            int x = num1 / num2;
+            int y = num2;
+            num2 = num1 - (num2 * x);
+            num1 = y;
+        }
+        if(num1 == 0){
+            return num2;
+        }
+        if(num2 == 0){
+            return num1;
+        }else{
+            return 0;
+        }
     }
 }
